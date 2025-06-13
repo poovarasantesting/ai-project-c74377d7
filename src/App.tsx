@@ -1,17 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Toaster } from "./components/ui/toaster";
-import Editor from "./pages/Editor";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from "@/components/ui/toaster";
+import TextToVoice from './pages/TextToVoice';
+import './App.css';
 
 function App() {
   return (
-    <Router>
-      <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <BrowserRouter>
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-950">
         <Routes>
-          <Route path="/" element={<Editor />} />
+          <Route path="/" element={<TextToVoice />} />
         </Routes>
         <Toaster />
       </main>
-    </Router>
+    </BrowserRouter>
   );
 }
 
