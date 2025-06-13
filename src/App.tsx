@@ -1,20 +1,17 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
-import LoginPage from "./pages/auth/login";
-import RegisterPage from "./pages/auth/register";
-import ForgotPasswordPage from "./pages/auth/forgot-password";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "./components/ui/toaster";
+import Editor from "./pages/Editor";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/auth/login" replace />} />
-        <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/auth/register" element={<RegisterPage />} />
-        <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
-      </Routes>
-      <Toaster />
-    </BrowserRouter>
+    <Router>
+      <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <Routes>
+          <Route path="/" element={<Editor />} />
+        </Routes>
+        <Toaster />
+      </main>
+    </Router>
   );
 }
 
