@@ -1,11 +1,21 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import { LoginForm } from "./components/LoginForm";
+import LoginPage from "./pages/auth/login";
+import RegisterPage from "./pages/auth/register";
+import ForgotPasswordPage from "./pages/auth/forgot-password";
 
-export default function App() {
+function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <LoginForm />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/auth/login" replace />} />
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/register" element={<RegisterPage />} />
+        <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+      </Routes>
       <Toaster />
-    </div>
+    </BrowserRouter>
   );
 }
+
+export default App;
