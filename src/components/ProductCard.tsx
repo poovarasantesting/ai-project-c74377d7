@@ -1,8 +1,10 @@
-import { Product } from '@/data/products';
-import { Button } from './ui/button';
-import { ShoppingCart } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useCart } from '@/context/CartContext';
+import { Link } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Product } from "@/types";
+import { useCart } from "@/context/CartContext";
+import { toast } from "@/components/ui/use-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -10,35 +12,42 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
-
+  
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.title} has been added to your cart.`,
+      duration: 2000,
+    });
+  };
+  
   return (
-    <div className="group relative overflow-hidden rounded-lg border bg-background transition-all hover:shadow-md">
-      <Link to={`/products/${product.id}`} className="block">
+    <Card className="overflow-hidden transition-all hover:shadow-lg">
+      <Link to={`/products/${product.id}`}>
         <div className="aspect-square overflow-hidden">
           <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="h-full w-full object-cover transition-transform group-hover:scale-105"
+            src={product.image}
+            alt={product.title}
+            className="object-cover w-full h-full transition-transform hover:scale-105"
           />
         </div>
-        <div className="p-4">
-          <h3 className="font-medium truncate">{product.name}</h3>
-          <p className="text-sm text-muted-foreground mb-2">{product.category}</p>
-          <p className="font-bold">${product.price.toFixed(2)}</p>
-        </div>
       </Link>
-      <div className="absolute bottom-4 right-4 opacity-0 transition-opacity group-hover:opacity-100">
-        <Button 
-          size="icon" 
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            addToCart(product);
-          }}
-        >
-          <ShoppingCart className="h-4 w-4" />
+      <CardContent className="p-4">
+        <Link to={`/products/${product.id}`}>
+          <h3 className="font-medium text-lg truncate hover:text-primary transition-colors">
+            {product.title}
+          </h3>
+        </Link>
+        <p className="text-gray-500 text-sm mt-1">{product.category}</p>
+        <p className="font-bold text-lg mt-2">${product.price.toFixed(2)}</p>
+      </CardContent>
+      <CardFooter className="p-4 pt-0">
+        <Button className="w-full" onClick={handleAddToCart}>
+          <ShoppingCart className="h-4 w-4 mr-2" />
+          Add to Cart
         </Button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 }
