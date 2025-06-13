@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { X, Divide, Minus, Plus, Equal } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 export function Calculator() {
   const [display, setDisplay] = useState("0");
@@ -66,80 +66,136 @@ export function Calculator() {
     }
   };
 
+  const handleEquals = () => {
+    if (firstOperand === null || operator === null) {
+      return;
+    }
+
+    const inputValue = parseFloat(display);
+    const result = calculate(firstOperand, inputValue, operator);
+    setDisplay(String(result));
+    setFirstOperand(result);
+    setOperator(null);
+    setWaitingForSecondOperand(false);
+  };
+
   return (
-    <div className="bg-white p-6 rounded-xl shadow-xl w-72">
-      <div className="bg-gray-100 p-4 rounded-lg mb-4 text-right">
-        <div className="text-3xl font-medium truncate">{display}</div>
-      </div>
-      
-      <div className="grid grid-cols-4 gap-2">
-        <Button 
-          variant="outline" 
-          onClick={clearDisplay}
-          className="col-span-2 bg-red-50 hover:bg-red-100 text-red-600 border-red-200"
-        >
-          AC
-        </Button>
-        <Button 
-          variant="outline" 
-          onClick={() => performOperation("/")}
-          className="bg-blue-50 hover:bg-blue-100 text-blue-600 border-blue-200"
-        >
-          <Divide size={18} />
-        </Button>
-        <Button 
-          variant="outline" 
-          onClick={() => performOperation("*")}
-          className="bg-blue-50 hover:bg-blue-100 text-blue-600 border-blue-200"
-        >
-          <X size={18} />
-        </Button>
-        
-        <Button variant="outline" onClick={() => inputDigit("7")}>7</Button>
-        <Button variant="outline" onClick={() => inputDigit("8")}>8</Button>
-        <Button variant="outline" onClick={() => inputDigit("9")}>9</Button>
-        <Button 
-          variant="outline" 
-          onClick={() => performOperation("-")}
-          className="bg-blue-50 hover:bg-blue-100 text-blue-600 border-blue-200"
-        >
-          <Minus size={18} />
-        </Button>
-        
-        <Button variant="outline" onClick={() => inputDigit("4")}>4</Button>
-        <Button variant="outline" onClick={() => inputDigit("5")}>5</Button>
-        <Button variant="outline" onClick={() => inputDigit("6")}>6</Button>
-        <Button 
-          variant="outline" 
-          onClick={() => performOperation("+")}
-          className="bg-blue-50 hover:bg-blue-100 text-blue-600 border-blue-200"
-        >
-          <Plus size={18} />
-        </Button>
-        
-        <Button variant="outline" onClick={() => inputDigit("1")}>1</Button>
-        <Button variant="outline" onClick={() => inputDigit("2")}>2</Button>
-        <Button variant="outline" onClick={() => inputDigit("3")}>3</Button>
-        <Button 
-          variant="outline" 
-          onClick={() => {
-            if (operator && firstOperand !== null) {
-              const inputValue = parseFloat(display);
-              const result = calculate(firstOperand, inputValue, operator);
-              setDisplay(String(result));
-              setFirstOperand(result);
-              setOperator(null);
-              setWaitingForSecondOperand(true);
-            }
-          }}
-          className="bg-blue-500 hover:bg-blue-600 text-white row-span-2"
-        >
-          <Equal size={18} />
-        </Button>
-        
-        <Button variant="outline" onClick={() => inputDigit("0")} className="col-span-2">0</Button>
-        <Button variant="outline" onClick={inputDecimal}>.</Button>
-      </div>
-    </div>
+    <Card className="w-full max-w-md shadow-lg">
+      <CardHeader>
+        <CardTitle className="text-center">Calculator</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="bg-gray-100 p-4 rounded mb-4 text-right overflow-hidden">
+          <div className="text-3xl font-medium truncate">{display}</div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-2">
+          <Button
+            variant="outline"
+            className="text-lg font-medium h-14"
+            onClick={clearDisplay}
+          >
+            C
+          </Button>
+          <Button
+            variant="outline"
+            className="text-lg font-medium h-14"
+            onClick={() => setDisplay(display.slice(0, -1) || "0")}
+          >
+            ←
+          </Button>
+          <Button
+            variant="secondary"
+            className="text-lg font-medium h-14"
+            onClick={() => performOperation("%")}
+          >
+            %
+          </Button>
+          <Button
+            variant="secondary"
+            className="text-lg font-medium h-14"
+            onClick={() => performOperation("/")}
+          >
+            ÷
+          </Button>
+
+          {[7, 8, 9].map((num) => (
+            <Button
+              key={num}
+              variant="outline"
+              className="text-lg font-medium h-14"
+              onClick={() => inputDigit(num.toString())}
+            >
+              {num}
+            </Button>
+          ))}
+          <Button
+            variant="secondary"
+            className="text-lg font-medium h-14"
+            onClick={() => performOperation("*")}
+          >
+            ×
+          </Button>
+
+          {[4, 5, 6].map((num) => (
+            <Button
+              key={num}
+              variant="outline"
+              className="text-lg font-medium h-14"
+              onClick={() => inputDigit(num.toString())}
+            >
+              {num}
+            </Button>
+          ))}
+          <Button
+            variant="secondary"
+            className="text-lg font-medium h-14"
+            onClick={() => performOperation("-")}
+          >
+            -
+          </Button>
+
+          {[1, 2, 3].map((num) => (
+            <Button
+              key={num}
+              variant="outline"
+              className="text-lg font-medium h-14"
+              onClick={() => inputDigit(num.toString())}
+            >
+              {num}
+            </Button>
+          ))}
+          <Button
+            variant="secondary"
+            className="text-lg font-medium h-14"
+            onClick={() => performOperation("+")}
+          >
+            +
+          </Button>
+
+          <Button
+            variant="outline"
+            className="text-lg font-medium h-14 col-span-2"
+            onClick={() => inputDigit("0")}
+          >
+            0
+          </Button>
+          <Button
+            variant="outline"
+            className="text-lg font-medium h-14"
+            onClick={inputDecimal}
+          >
+            .
+          </Button>
+          <Button
+            variant="primary"
+            className="text-lg font-medium h-14 bg-blue-600 hover:bg-blue-700 text-white"
+            onClick={handleEquals}
+          >
+            =
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
