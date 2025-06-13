@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function Calculator() {
   const [display, setDisplay] = useState("0");
@@ -76,44 +76,44 @@ export function Calculator() {
     setDisplay(String(result));
     setFirstOperand(result);
     setOperator(null);
-    setWaitingForSecondOperand(false);
+    setWaitingForSecondOperand(true);
   };
 
   return (
-    <Card className="w-full max-w-md shadow-lg">
-      <CardHeader>
-        <CardTitle className="text-center">Calculator</CardTitle>
+    <Card className="w-full max-w-xs shadow-lg">
+      <CardHeader className="bg-gray-800 rounded-t-lg">
+        <CardTitle className="text-white">
+          <div className="text-right p-2 h-14 font-mono text-2xl overflow-hidden">
+            {display}
+          </div>
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="bg-gray-100 p-4 rounded mb-4 text-right overflow-hidden">
-          <div className="text-3xl font-medium truncate">{display}</div>
-        </div>
-
+      <CardContent className="p-4">
         <div className="grid grid-cols-4 gap-2">
           <Button
             variant="outline"
-            className="text-lg font-medium h-14"
+            className="font-bold"
             onClick={clearDisplay}
           >
             C
           </Button>
           <Button
             variant="outline"
-            className="text-lg font-medium h-14"
-            onClick={() => setDisplay(display.slice(0, -1) || "0")}
+            className="font-bold"
+            onClick={() => setDisplay(display.charAt(0) === "-" ? display.substring(1) : "-" + display)}
           >
-            ←
+            +/-
           </Button>
           <Button
-            variant="secondary"
-            className="text-lg font-medium h-14"
+            variant="outline"
+            className="font-bold"
             onClick={() => performOperation("%")}
           >
             %
           </Button>
           <Button
-            variant="secondary"
-            className="text-lg font-medium h-14"
+            variant="default"
+            className="bg-amber-500 hover:bg-amber-600 font-bold"
             onClick={() => performOperation("/")}
           >
             ÷
@@ -123,15 +123,15 @@ export function Calculator() {
             <Button
               key={num}
               variant="outline"
-              className="text-lg font-medium h-14"
+              className="font-bold"
               onClick={() => inputDigit(num.toString())}
             >
               {num}
             </Button>
           ))}
           <Button
-            variant="secondary"
-            className="text-lg font-medium h-14"
+            variant="default"
+            className="bg-amber-500 hover:bg-amber-600 font-bold"
             onClick={() => performOperation("*")}
           >
             ×
@@ -141,15 +141,15 @@ export function Calculator() {
             <Button
               key={num}
               variant="outline"
-              className="text-lg font-medium h-14"
+              className="font-bold"
               onClick={() => inputDigit(num.toString())}
             >
               {num}
             </Button>
           ))}
           <Button
-            variant="secondary"
-            className="text-lg font-medium h-14"
+            variant="default"
+            className="bg-amber-500 hover:bg-amber-600 font-bold"
             onClick={() => performOperation("-")}
           >
             -
@@ -159,15 +159,15 @@ export function Calculator() {
             <Button
               key={num}
               variant="outline"
-              className="text-lg font-medium h-14"
+              className="font-bold"
               onClick={() => inputDigit(num.toString())}
             >
               {num}
             </Button>
           ))}
           <Button
-            variant="secondary"
-            className="text-lg font-medium h-14"
+            variant="default"
+            className="bg-amber-500 hover:bg-amber-600 font-bold"
             onClick={() => performOperation("+")}
           >
             +
@@ -175,21 +175,21 @@ export function Calculator() {
 
           <Button
             variant="outline"
-            className="text-lg font-medium h-14 col-span-2"
+            className="col-span-2 font-bold"
             onClick={() => inputDigit("0")}
           >
             0
           </Button>
           <Button
             variant="outline"
-            className="text-lg font-medium h-14"
+            className="font-bold"
             onClick={inputDecimal}
           >
             .
           </Button>
           <Button
-            variant="primary"
-            className="text-lg font-medium h-14 bg-blue-600 hover:bg-blue-700 text-white"
+            variant="default"
+            className="bg-amber-500 hover:bg-amber-600 font-bold"
             onClick={handleEquals}
           >
             =
