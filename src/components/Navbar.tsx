@@ -1,40 +1,60 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
-import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
+import { ShoppingCart, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Navbar() {
-  const { cart } = useCart();
-  
-  const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
-  
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <header className="bg-white border-b sticky top-0 z-10">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-bold text-primary">ShopEasy</Link>
-        
-        <nav className="hidden md:flex items-center space-x-8">
-          <Link to="/" className="text-gray-700 hover:text-primary transition-colors">
-            Home
-          </Link>
-          <Link to="/products" className="text-gray-700 hover:text-primary transition-colors">
-            Products
-          </Link>
-        </nav>
-        
-        <div className="flex items-center">
-          <Link to="/cart" className="relative">
-            <Button variant="ghost" size="icon">
-              <ShoppingCart className="h-6 w-6" />
-              {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {itemCount}
-                </span>
-              )}
+    <nav className="bg-white border-b shadow-sm">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          <Link to="/" className="text-xl font-bold">MyStore</Link>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-6 items-center">
+            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+            <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
+            <Button variant="outline" size="icon">
+              <ShoppingCart className="h-5 w-5" />
             </Button>
-          </Link>
+          </div>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
         </div>
+        
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 space-y-3 flex flex-col">
+            <Link 
+              to="/" 
+              className="hover:bg-gray-100 px-4 py-2 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link 
+              to="/shop" 
+              className="hover:bg-gray-100 px-4 py-2 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Shop
+            </Link>
+            <div className="px-4">
+              <Button variant="outline" size="icon">
+                <ShoppingCart className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
-    </header>
+    </nav>
   );
 }
