@@ -1,24 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
-import Dashboard from "@/pages/Dashboard";
-import WorkoutHistory from "@/pages/WorkoutHistory";
-import PersonalRecords from "@/pages/PersonalRecords";
-import ProgressCharts from "@/pages/ProgressCharts";
-import Layout from "@/components/Layout";
+import { useState } from "react";
+import { Calculator } from "./components/Calculator";
+import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="history" element={<WorkoutHistory />} />
-          <Route path="records" element={<PersonalRecords />} />
-          <Route path="progress" element={<ProgressCharts />} />
-        </Route>
-      </Routes>
-      <Toaster />
-    </BrowserRouter>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <Calculator />
+    </div>
   );
 }
 
