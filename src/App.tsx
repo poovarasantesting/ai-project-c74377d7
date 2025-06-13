@@ -1,14 +1,14 @@
-import { Toaster } from "sonner";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
+import { Toaster } from "@/components/ui/toaster";
+import InstagramLogin from "./pages/InstagramLogin";
 
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-center" richColors />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<InstagramLogin />} />
       </Routes>
+      <Toaster />
     </BrowserRouter>
   );
 }
