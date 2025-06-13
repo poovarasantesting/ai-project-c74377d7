@@ -1,15 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
-import InstagramLogin from "./pages/InstagramLogin";
+import { RegistrationForm } from "./components/RegistrationForm";
+import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<InstagramLogin />} />
-      </Routes>
+    <div className="App">
       <Toaster />
-    </BrowserRouter>
+      <RegistrationForm />
+    </div>
   );
 }
 
